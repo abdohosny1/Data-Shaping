@@ -1,3 +1,4 @@
+using AccountOwnerServer.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,12 +27,22 @@ namespace AccountOwnerServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.ConfigureCors();
 
-            services.AddControllers();
-            services.AddSwaggerGen(c =>
+            services.ConfigureIISIntegration();
+
+            services.ConfigureLoggerService();
+
+            services.ConfigureMySqlContext(Configuration);
+
+            services.ConfigureRepositoryWrapper();
+
+            services.AddControllers(config =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "AccountOwnerServer", Version = "v1" });
-            });
+                config.RespectBrowserAcceptHeader = true;
+                config.ReturnHttpNotAcceptable = true;
+            }).AddXmlDataContractSerializerFormatters();
+           // .AddNewtonsoftJson();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
