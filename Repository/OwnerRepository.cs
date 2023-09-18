@@ -1,11 +1,11 @@
 ﻿using Contracts;
 using Entities;
+using Entities.Extensions;
 using Entities.Helpers;
 using Entities.Models;
 using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Repository
 {
